@@ -22,7 +22,7 @@ describe('common behaviour', () => {
           database: 'DBNAME',
         },
       });
-      tracker = getTracker();
+      tracker = getTracker(db);
     });
 
     afterEach(() => {

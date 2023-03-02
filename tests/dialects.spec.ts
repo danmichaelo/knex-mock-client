@@ -12,7 +12,7 @@ describe('specific dialect', () => {
         client: MockClient,
         dialect: 'pg',
       });
-      tracker = getTracker();
+      tracker = getTracker(db);
     });
 
     afterEach(() => {

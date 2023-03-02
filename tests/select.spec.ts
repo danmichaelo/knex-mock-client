@@ -10,7 +10,7 @@ describe('mock Select statement', () => {
     db = knex({
       client: MockClient,
     });
-    tracker = getTracker();
+    tracker = getTracker(db);
   });
 
   afterEach(() => {

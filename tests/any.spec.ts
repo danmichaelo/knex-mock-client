@@ -10,7 +10,7 @@ describe('mock any statement', () => {
     db = knex({
       client: MockClient,
     });
-    tracker = getTracker();
+    tracker = getTracker(db);
   });
 
   afterEach(() => {
@@ -135,7 +135,7 @@ describe('mock any statement', () => {
     await expect(db('table_name').delete().where('id', 1)).rejects.toMatchObject({
       message: expect.stringContaining(errorMessage),
     });
-  })
+  });
 
   it('should allow to simulate error with object', async () => {
     const error = new Error('connection error');

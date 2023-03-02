@@ -10,7 +10,7 @@ describe('transaction', () => {
     db = knex({
       client: MockClient,
     });
-    tracker = getTracker();
+    tracker = getTracker(db);
   });
 
   afterEach(() => {
@@ -30,18 +30,20 @@ describe('transaction', () => {
     expect(tracker.history.insert).toHaveLength(1);
     expect(tracker.history.delete).toHaveLength(1);
 
-    expect(tracker.history.transactions).toEqual([{
-      id: 0,
-      state: 'committed',
-      queries: [
-        expect.objectContaining({
-          method: 'insert',
-        }),
-        expect.objectContaining({
-          method: 'delete',
-        }),
-      ],
-    }]);
+    expect(tracker.history.transactions).toEqual([
+      {
+        id: 0,
+        state: 'committed',
+        queries: [
+          expect.objectContaining({
+            method: 'insert',
+          }),
+          expect.objectContaining({
+            method: 'delete',
+          }),
+        ],
+      },
+    ]);
   });
 
   it('should support transactions with rollback', async () => {
@@ -61,18 +63,20 @@ describe('transaction', () => {
     expect(tracker.history.insert).toHaveLength(1);
     expect(tracker.history.delete).toHaveLength(1);
 
-    expect(tracker.history.transactions).toEqual([{
-      id: 0,
-      state: 'rolled back',
-      queries: [
-        expect.objectContaining({
-          method: 'insert',
-        }),
-        expect.objectContaining({
-          method: 'delete',
-        }),
-      ],
-    }]);
+    expect(tracker.history.transactions).toEqual([
+      {
+        id: 0,
+        state: 'rolled back',
+        queries: [
+          expect.objectContaining({
+            method: 'insert',
+          }),
+          expect.objectContaining({
+            method: 'delete',
+          }),
+        ],
+      },
+    ]);
   });
 
   it('should support nested transactions', async () => {
@@ -144,18 +148,20 @@ describe('transaction', () => {
     expect(tracker.history.insert).toHaveLength(1);
     expect(tracker.history.delete).toHaveLength(1);
 
-    expect(tracker.history.transactions).toEqual([{
-      id: 0,
-      state: 'committed',
-      queries: [
-        expect.objectContaining({
-          method: 'insert',
-        }),
-        expect.objectContaining({
-          method: 'delete',
-        }),
-      ],
-    }]);
+    expect(tracker.history.transactions).toEqual([
+      {
+        id: 0,
+        state: 'committed',
+        queries: [
+          expect.objectContaining({
+            method: 'insert',
+          }),
+          expect.objectContaining({
+            method: 'delete',
+          }),
+        ],
+      },
+    ]);
   });
 
   it('should keep track of interleaving transactions', async () => {
