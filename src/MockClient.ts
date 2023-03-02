@@ -4,13 +4,13 @@ import { MockConnection } from './MockConnection';
 import { Tracker, TrackerConfig } from './Tracker';
 
 export class MockClient extends knex.Client {
-  static tracker: Tracker;
+  public tracker: Tracker;
   public readonly isMock = true;
 
   constructor(config: Knex.Config & { mockClient: TrackerConfig }) {
     super(config);
 
-    MockClient.tracker = new Tracker(config.mockClient);
+    this.tracker = new Tracker(config.mockClient);
 
     if (config.dialect) {
       this._attachDialectQueryCompiler(config);
@@ -47,7 +47,7 @@ export class MockClient extends knex.Client {
         break;
     }
 
-    return MockClient.tracker._handle(connection, { ...rawQuery, method });
+    return this.tracker._handle(connection, { ...rawQuery, method });
   }
 
   private _attachDialectQueryCompiler(config: Knex.Config<any> & { mockClient: TrackerConfig }) {
